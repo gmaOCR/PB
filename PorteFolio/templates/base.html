@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset=UTF-8>
+<title>Blog Photos</title>
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/sidebar.js' %}"></script>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <h2>Menu</h2>
+    <p class="menu">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'add_photo' %}">Ajouter</a>
+        <a href="{% url 'logout' %}">Se déconnecter</a>
+    </p>
+    <span id="username">Logué en tant que: {{user.email}}</span>
+</div>
+<div class="arrow" id="arrow"></div>
+ {% block content %}
+{% endblock content %}
+</body>
+</html>
