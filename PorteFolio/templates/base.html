@@ -11,17 +11,29 @@
 </head>
 <body>
 
-<div class="sidebar" id="sidebar">
+<div class="sidebar_left" id="sidebar_left">
     <h2>Menu</h2>
     <p class="menu">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'add_photo' %}">Ajouter</a>
         <a href="{% url 'logout' %}">Se déconnecter</a>
+        <span id="username">Logué en tant que: {{user.email}}</span>
     </p>
-    <span id="username">Logué en tant que: {{user.email}}</span>
 </div>
-<div class="arrow" id="arrow"></div>
+<div class="arrow_left" id="arrow_left"></div>
+
+<div class="sidebar_right" id="sidebar_right">
+  <h2>Menu</h2>
+  <p class="menu-right">
+    <a href="#">Option 1</a>
+    <a href="#">Option 2</a>
+    <a href="#">Option 3</a>
+  </p>
+</div>
+<div class="arrow_right" id="arrow_right"></div>
+
  {% block content %}
 {% endblock content %}
+
 </body>
 </html>
