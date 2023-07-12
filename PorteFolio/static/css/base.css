@@ -1,4 +1,4 @@
-.sidebar {
+.sidebar_left {
   width: 200px;
   height: 100vh;
   position: fixed;
@@ -9,11 +9,11 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar.active {
+.sidebar_left.active {
   left: 0;
 }
 
-.arrow {
+.arrow_left {
   position: fixed;
   top: 50%;
   left: -20px;
@@ -31,11 +31,11 @@
   border-radius: 50%;
 }
 
-.arrow.active {
+.arrow_left.active {
   left: calc(200px - 20px);
 }
 
-.arrow:before {
+.arrow_left:before {
   content: "";
   width: 0;
   height: 0;
@@ -56,17 +56,6 @@
 .menu a {
   display: block;
   margin-bottom: 10px;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 0 20px;
-  box-sizing: border-box;
-  max-width: 100%;
-  overflow: hidden;
 }
 
 .form-header {
@@ -146,11 +135,83 @@
 }
 
 .preview-image {
-  max-width: 300px; /* Ajustez la largeur maximale selon vos besoins */
-  max-height: 300px; /* Ajustez la hauteur maximale selon vos besoins */
+  max-width: 300px;
+  max-height: 300px;
 }
 
 .image-row {
   margin-top: 10px;
+}
+
+.sidebar_right {
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: -200px;
+  transition: right 0.3s ease-in-out;
+  background-color: #C8E6FF;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar_right.active {
+  right: 0;
+}
+
+.arrow_right {
+  position: fixed;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to right, #C8E6FF, #388EFA);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: right 0.3s ease-in-out;
+  z-index: 1;
+  box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
+
+.arrow_right.active {
+  right: calc(200px - 20px);
+}
+
+.arrow_right:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 20px 10px 0;
+  border-color: transparent #3E3E3E transparent transparent;
+  border-radius: 5px;
+}
+
+.menu-right {
+  margin-top: 20px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu-right a {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 20px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
 }
 
