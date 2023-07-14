@@ -4,23 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a42a1bed-e831-459d-b340-4c175959914f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/PB.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/externalDependencies.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/python-terminal.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PorteFolio/Photos/templates/delete_photo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
+    <list default="true" id="a42a1bed-e831-459d-b340-4c175959914f" name="Changes" comment="initial commit">
       <change beforePath="$PROJECT_DIR$/PorteFolio/Photos/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/Photos/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PorteFolio/Photos/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/Photos/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PorteFolio/PorteFolio/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/PorteFolio/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PorteFolio/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PorteFolio/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/static/css/base.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PorteFolio/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PorteFolio/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "dev",
     "last_opened_file_path": "/home/greg/PycharmProjects/PB/PorteFolio/Photos/templates",
-    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -89,6 +79,23 @@
       <option name="presentableId" value="Default" />
       <updated>1689158134297</updated>
     </task>
+    <task id="LOCAL-00001" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1689325199617</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1689325199617</updated>
+    </task>
+    <task id="LOCAL-00002" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1689325221724</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1689325221724</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -116,5 +123,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CODE_SMELLS_PROFILE" value="Default" />
+    <MESSAGE value="initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
   </component>
 </project>
