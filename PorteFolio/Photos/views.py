@@ -65,6 +65,17 @@ def edit_photo(request, photo_id):
 
 
 @login_required
+def delete_photo(request, photo_id):
+    photo = get_object_or_404(Photo, id=photo_id)
+
+    if request.method == 'POST':
+        photo.delete()
+        return redirect('home')
+
+    return render(request, 'delete_photo.html', context={'photo': photo})
+
+
+@login_required
 def home(request):
     photos = Photo.objects.all()
     users = CustomUser.objects.all()
