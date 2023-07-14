@@ -14,6 +14,7 @@
       {% endif %}
       <p>{{ photo.description }}</p>
       <a href="{% url 'edit_photo' photo.id %}" class="edit-link"><i class="fas fa-edit"></i></a>
+      <a href="{% url 'delete_photo' photo.id %}" class="delete-link"><i class="fas fa-trash"></i></a>
     </div>
     {% empty %}
     <div class="grid-item">
