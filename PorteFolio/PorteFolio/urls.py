@@ -28,6 +28,7 @@ urlpatterns = [
     path('', ph_views.home, name='home'),
     path('photo/add', ph_views.add_photo, name='add_photo'),
     path('photo/edit/<int:photo_id>', ph_views.edit_photo, name='edit_photo'),
+    path('photo/del/<int:photo_id>', ph_views.delete_photo, name='delete_photo'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
 ]
