@@ -11,7 +11,7 @@ class Photo(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True)
-    thumbnail = models.ImageField(blank=True, null=True ,upload_to='thumbnails')
+    thumbnail = models.ImageField(blank=True, null=True, upload_to='thumbnails')
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -58,4 +58,3 @@ class Photo(models.Model):
         except (IOError, OSError) as e:
             # Gérer l'erreur selon vos besoins
             print(f"Une erreur s'est produite lors du redimensionnement de l'image : {e}")
-
