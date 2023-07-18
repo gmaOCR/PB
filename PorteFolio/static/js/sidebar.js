@@ -5,55 +5,27 @@ $(document).ready(function() {
   var arrowRight = $('#arrow_right');
   var sidebarRight = $('#sidebar_right');
 
-  // Fonction pour ajouter la classe .active aux sidebars et aux flèches
-  function activateSidebar(sidebar, arrow) {
-    sidebar.addClass('active'); // Ajoute la classe .active à la sidebar
-    arrow.addClass('active'); // Ajoute la classe .active à la flèche
-  }
+  // Fonction pour afficher la sidebar gauche lorsque vous passez la souris sur la flèche
+  arrowLeft.on('mouseenter', function() {
+    sidebarLeft.addClass('active');
+    arrowLeft.addClass('active');
+  });
 
-  // Fonction pour supprimer la classe .active des sidebars et des flèches
-  function deactivateSidebar(sidebar, arrow) {
-    sidebar.removeClass('active'); // Supprime la classe .active de la sidebar
-    arrow.removeClass('active'); // Supprime la classe .active de la flèche
-  }
+  // Fonction pour cacher la sidebar gauche lorsque vous déplacez la souris hors de la sidebar ou de la flèche
+  sidebarLeft.on('mouseleave', function() {
+    sidebarLeft.removeClass('active');
+    arrowLeft.removeClass('active');
+  });
 
-  // Gestionnaire d'événements pour la sidebar gauche
-  sidebarLeft.hover(
-    function() {
-      activateSidebar(sidebarLeft, arrowLeft);
-    },
-    function() {
-      deactivateSidebar(sidebarLeft, arrowLeft);
-    }
-  );
+  // Fonction pour afficher la sidebar droite lorsque vous passez la souris sur la flèche
+  arrowRight.on('mouseenter', function() {
+    sidebarRight.addClass('active');
+    arrowRight.addClass('active');
+  });
 
-  // Gestionnaire d'événements pour la flèche gauche
-  arrowLeft.hover(
-    function() {
-      activateSidebar(sidebarLeft, arrowLeft);
-    },
-    function() {
-      deactivateSidebar(sidebarLeft, arrowLeft);
-    }
-  );
-
-  // Gestionnaire d'événements pour la sidebar droite
-  sidebarRight.hover(
-    function() {
-      activateSidebar(sidebarRight, arrowRight);
-    },
-    function() {
-      deactivateSidebar(sidebarRight, arrowRight);
-    }
-  );
-
-  // Gestionnaire d'événements pour la flèche droite
-  arrowRight.hover(
-    function() {
-      activateSidebar(sidebarRight, arrowRight);
-    },
-    function() {
-      deactivateSidebar(sidebarRight, arrowRight);
-    }
-  );
+  // Fonction pour cacher la sidebar droite lorsque vous déplacez la souris hors de la sidebar ou de la flèche
+  sidebarRight.on('mouseleave', function() {
+    sidebarRight.removeClass('active');
+    arrowRight.removeClass('active');
+  });
 });

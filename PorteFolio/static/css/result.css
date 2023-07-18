@@ -1,0 +1,72 @@
+/* Styles existants inchangés */
+.tree ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.tree li {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 8px;
+}
+
+.tree label {
+    cursor: pointer;
+}
+
+.tree input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.tree input[type="checkbox"] + label:before {
+    content: "\2610";
+    margin-right: 5px;
+}
+
+.tree input[type="checkbox"]:checked + label:before {
+    content: "\2611";
+}
+
+.tree input[type="checkbox"] + label + ul {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.tree input[type="checkbox"]:checked + label + ul {
+    max-height: 1000px; /* Set a large enough value to accommodate your content */
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+}
+
+/* Ajoutez le CSS nécessaire dans le fichier où vous avez vos autres styles */
+.data-item {
+  margin-bottom: 10px;
+}
+
+.data-item label {
+  cursor: pointer;
+}
+
+.data-details {
+  display: none;
+  /* Ajoutez d'autres styles pour formater les détails dépliés si nécessaire */
+}
+
+/* Nouvelle classe pour la largeur plus étroite */
+.data-result {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  margin: 0 auto; /* Ajoutez cette ligne pour centrer horizontalement */
+  max-height: 60vh; /* Définissez la hauteur maximale souhaitée pour l'affichage initial */
+  overflow-y: auto;
+  padding: 0px;
+}
+
+/* Nouvelle classe pour le conteneur d'entité */
+.entity-container {
+  margin-bottom: 10px;
+}
