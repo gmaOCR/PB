@@ -6,7 +6,7 @@ body {
 .background-container {
   width: 80%;
   margin: 0 auto;
-  min-height: 200vh;
+  min-height: 100vh;
   position: relative;
   border-left: 10px solid rgba(128, 128, 128, 0.5);
   border-right: 10px solid rgba(128, 128, 128, 0.5);
@@ -100,9 +100,10 @@ body {
   margin-bottom: 10px;
 }
 .container form {
-  border: 1px solid #ccc;
+  border: 2px solid grey;
   border-radius: 10px;
   padding: 20px;
+  background-color: #DCDCDC;
 }
 
 .container form .form-row label {
@@ -140,6 +141,11 @@ body {
   color: inherit;
 }
 
+.submit-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
 .submit-button:hover,
 .submit-button:focus {
   color: inherit;
@@ -159,8 +165,8 @@ body {
 }
 
 .data-form {
-  max-width: 100%;
   overflow: hidden;
+  background-color: #DCDCDC;
 }
 
 .image-container {
@@ -253,5 +259,6 @@ body {
 }
 
 #username {
-font-size: 12px;
+ font-size: 12px;
 }
+
