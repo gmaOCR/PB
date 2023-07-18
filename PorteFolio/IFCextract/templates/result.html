@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/result.css' %}">
+<div class="container">
+  <div class="form-container">
+    <div class="form-header text-center">
+      <h4>Résultats</h4>
+    </div>
+    <form class="data-result"  method="post" enctype="multipart/form-data">
+        {% for entity_type_data in entity_data %}
+        <div class="entity-container data-item tree">
+          <input type="checkbox" id="{{ entity_type_data.type }}" />
+          <label for="{{ entity_type_data.type }}">{{ entity_type_data.type }} ({{ entity_type_data.entities|length }})</label>
+          <ul>
+            {% for entity in entity_type_data.entities %}
+            <li>{{ entity }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+    </form>
+  </div>
+</div>
+<script src="{% static 'js/result.js' %}"></script>
+{% endblock %}
