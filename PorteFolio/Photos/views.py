@@ -25,7 +25,6 @@ def add_photo(request):
     else:
         print("Affichage du formulaire GET")
         photo_form = PhotoForm()
-        print(photo_form)
     return render(request, 'add_photo.html', {'photo_form': photo_form})
 
 
