@@ -19,6 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path
+
+from IFCextract import views as ifc_views
 from Photos import views as ph_views
 from Profiles import views as pr_views
 
@@ -26,9 +28,13 @@ urlpatterns = [
     path('login/', pr_views.CustomLoginView.as_view(), name='login'),
     path('home/', ph_views.home, name='home'),
     path('', ph_views.home, name='home'),
+
     path('photo/add', ph_views.add_photo, name='add_photo'),
     path('photo/edit/<int:photo_id>', ph_views.edit_photo, name='edit_photo'),
     path('photo/del/<int:photo_id>', ph_views.delete_photo, name='delete_photo'),
+
+    path('ifc/upload/', ifc_views.upload_ifc , name='upload_ifc'),
+
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
 ]
