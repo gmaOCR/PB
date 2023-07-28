@@ -33,7 +33,8 @@ urlpatterns = [
     path('photo/edit/<int:photo_id>', ph_views.edit_photo, name='edit_photo'),
     path('photo/del/<int:photo_id>', ph_views.delete_photo, name='delete_photo'),
 
-    path('ifc/upload/', ifc_views.upload_ifc , name='upload_ifc'),
+    path('ifc/upload/read/', ifc_views.read_ifc, name='upload_ifc'),
+    path('ifc/upload/extract/', ifc_views.extract_geometry, name='extract_ifc'),
 
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
