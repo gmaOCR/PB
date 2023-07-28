@@ -7,18 +7,71 @@
     <div class="form-header text-center">
       <h4>Résultats</h4>
     </div>
-    <form class="data-result"  method="post" enctype="multipart/form-data">
-        {% for entity_type_data in entity_data %}
-        <div class="entity-container data-item tree">
-          <input type="checkbox" id="{{ entity_type_data.type }}" />
-          <label for="{{ entity_type_data.type }}">{{ entity_type_data.type }} ({{ entity_type_data.entities|length }})</label>
-          <ul>
-            {% for entity in entity_type_data.entities %}
-            <li>{{ entity }}</li>
-            {% endfor %}
-          </ul>
+    <form class="data-result" method="post" enctype="multipart/form-data">
+      {% if non_element_entity_data%}
+      <div class="entity-container data-item tree expanded">
+        <div class="toggle-container">
+        <span class="toggle-icon">+</span>
+        <span>Objets non géométrique</span>
         </div>
-        {% endfor %}
+        <ul>
+          {% for entity_type_data in non_element_entity_data %}
+          <div class="entity-container data-item tree expanded">
+          <div class="toggle-container">
+            <span class="toggle-icon">+</span>
+            <label class="toggle-btn">
+              {{ entity_type_data.type }} ({{ entity_type_data.entities|length }})
+            </label>
+          </div>
+                <div class="toggle-container">
+            <ul>
+              {% for entity in entity_type_data.entities %}
+
+              <li>
+                <input type="checkbox" class="toggle-checkbox"/>
+                ID:{{ entity.id }}-{{ entity.Name }}
+              </li>
+
+              {% endfor %}
+            </ul>
+                     </div>
+          </div>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% if element_entity_data%}
+            <div class="entity-container data-item tree expanded">
+        <div class="toggle-container">
+        <span class="toggle-icon">+</span>
+        <span>Objets géométrique</span>
+        </div>
+        <ul>
+          {% for entity_type_data in element_entity_data %}
+          <div class="entity-container data-item tree expanded">
+          <div class="toggle-container">
+            <span class="toggle-icon">+</span>
+            <label class="toggle-btn">
+              {{ entity_type_data.type }} ({{ entity_type_data.entities|length }})
+            </label>
+          </div>
+                <div class="toggle-container">
+            <ul>
+              {% for entity in entity_type_data.entities %}
+
+              <li>
+                <input type="checkbox" class="toggle-checkbox"/>
+                ID:{{ entity.id }}-{{ entity.Name }}
+              </li>
+
+              {% endfor %}
+            </ul>
+                     </div>
+          </div>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
     </form>
   </div>
 </div>
