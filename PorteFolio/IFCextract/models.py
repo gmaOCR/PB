@@ -2,4 +2,4 @@ from django.db import models
 
 
 class IFCFile(models.Model):
-    file = models.FileField(upload_to='media/ifc')
+    file = models.FileField(upload_to='ifc')
