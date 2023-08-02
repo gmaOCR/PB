@@ -1,7 +1,20 @@
+import os
+import zipfile
+from contextlib import contextmanager
+
 import ifcopenshell
 import ifcopenshell.geom
 import ifcopenshell.util.element as Element
 import pandas as pd
+
+
+@contextmanager
+def delete_file_after_use(file_path):
+    try:
+        yield file_path
+    finally:
+        # Supprimer le fichier après avoir quitté le contexte
+        os.remove(file_path)
 
 
 def get_entities_by_type(entities_list):
@@ -16,26 +29,7 @@ def get_entities_by_type(entities_list):
     return entities_by_type
 
 
-def get_properties_and_quantities(element):
-    properties = {}
-    quantities = {}
-
-    is_defined_by = element.IsDefinedBy
-    for rel_defines_by_property in is_defined_by:
-        if rel_defines_by_property.is_a("IfcRelDefinesByProperties"):
-            property_set = rel_defines_by_property.RelatingPropertyDefinition
-            if property_set.is_a("IfcPropertySet"):
-                for property in property_set.HasProperties:
-                    if property.is_a("IfcPropertySingleValue"):
-                        properties[property.Name] = property.NominalValue.wrappedValue
-            elif property_set.is_a("IfcElementQuantity"):
-                for quantity in property_set.Quantities:
-                    if quantity.is_a("IfcPhysicalSimpleQuantity"):
-                        quantities[quantity.Name] = quantity[0]
-    return {"properties": properties, "quantities": quantities}
-
-
-def get_attributes_value(object_data, attribute):
+def get_attribute_value(object_data, attribute):
     if "." not in attribute:
         return object_data[attribute]
     elif "." in attribute:
@@ -53,6 +47,11 @@ def get_attributes_value(object_data, attribute):
                 return None
         else:
             return None
+
+
+def compress_to_zip_file(path_to_csv, path_to_zip):
+    with zipfile.ZipFile(path_to_zip, 'a') as zipf:  # Open the zip file in append mode
+        zipf.write(path_to_csv, arcname=os.path.basename(path_to_csv))  # Add the CSV file to the zip file
 
 
 class IFCObjectAnalyzer:
@@ -116,40 +115,26 @@ class IFCObjectAnalyzer:
         return datas, list(pset_attributes)
 
     def export_ifc_to_csv(self):
-        attributes = ["ExpressID", "GlobalID", "Class", "PredefinedType", "Name", "Level", "ObjectType"]
-
-        df_list = []
-
-        for element_type in self.all_element_types:
-            data, pset_attributes = self.extract_data(element_type)
-
-            # Créer un DataFrame à partir des données extraites
-            df = pd.DataFrame(data)
-
-            # S'assurer que les colonnes "PropertySets" et "QuantitiySets" contiennent bien des dictionnaires
-            df['PropertySets'] = df['PropertySets'].apply(lambda x: x if isinstance(x, dict) else {})
-            df['QuantitiySets'] = df['QuantitiySets'].apply(lambda x: x if isinstance(x, dict) else {})
-
-            # Créer une nouvelle colonne pour chaque clé dans les dictionnaires "PropertySets"
-            for key in pset_attributes:
-                if f'PropertySets_{key}' not in df.columns:
-                    df[f'PropertySets_{key}'] = df['PropertySets'].apply(lambda x: x.get(key, None))
-
-            # Créer une nouvelle colonne pour chaque clé dans les sous-dictionnaires "QuantitiySets"
-            for sub_dict_name in df['QuantitiySets'].iloc[0].keys():
-                for key in pset_attributes:
-                    if f'QuantitiySets_{sub_dict_name}_{key}' not in df.columns:
-                        df[f'QuantitiySets_{sub_dict_name}_{key}'] = df['QuantitiySets'].apply(
-                            lambda x: x[sub_dict_name].get(key, None) if sub_dict_name in x else None)
-
-            df_list.append(df)
-
-        # Concatenate all the dataframes in the df_list
-        final_df = pd.concat(df_list, ignore_index=True)
-
-        # Supprimer les colonnes 'PropertySets' et 'QuantitiySets' originales
-        final_df = final_df.drop(columns=['PropertySets', 'QuantitiySets'])
-
-        # Écrire le DataFrame dans un fichier CSV
-        final_df.to_csv('csv/test.csv', index=False)
-
+        all_types = self.get_all_element_types()
+        csv_files = []
+        for type in all_types:
+            data, pset_attributes = self.extract_data(type)
+            attributes = ["ExpressID", "GlobalID", "Class", "PredefinedType", "Name", "Level",
+                          "ObjectType"] + pset_attributes
+            pandas_data = []
+            for obj_data in data:
+                row = []
+                for attribute in attributes:
+                    value = get_attribute_value(obj_data, attribute)
+                    row.append(value)
+                pandas_data.append(row)
+            dataframe = pd.DataFrame.from_records(pandas_data, columns=attributes)
+            csv_path = f'media/csv/{type}.csv'
+            dataframe.to_csv(csv_path)
+            csv_files.append(csv_path)
+        zip_path = 'media/zip/output.zip'
+        for csv_file in csv_files:
+            compress_to_zip_file(csv_file, zip_path)
+            with delete_file_after_use(csv_file):
+                pass  # Le fichier CSV sera supprimé après ce contexte
+        return zip_path
