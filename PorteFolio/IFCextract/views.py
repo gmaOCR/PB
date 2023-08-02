@@ -8,15 +8,6 @@ from .ifc_class import *
 from .extract import *
 
 
-@contextmanager
-def delete_file_after_use(file_path):
-    try:
-        yield file_path
-    finally:
-        # Supprimer le fichier après avoir quitté le contexte
-        os.remove(file_path)
-
-
 def read_ifc(request):
     form = IfcFileForm()
     if request.method == 'POST':
@@ -50,6 +41,43 @@ def read_ifc(request):
     return render(request, 'upload.html', {'form': form})
 
 
+# def extract_geometry(request):
+#     form = IfcFileForm()
+#     if request.method == 'POST':
+#         form = IfcFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             ifc_file = form.save()
+#             ifc_path = ifc_file.file.path
+#             try:
+#                 analyzer = IFCObjectAnalyzer(ifc_path, True)
+#                 # Get all element types
+#                 types_list = analyzer.get_all_element_types()
+#                 csv_files = []
+#                 for element_type in types_list:
+#                     # Extract data for each element type and write to CSV
+#                     data, _ = analyzer.extract_data(element_type)
+#                     csv_filename = f"{element_type}.csv"
+#                     df = pd.DataFrame(data)
+#                     df.to_csv(csv_filename)
+#                     csv_files.append(csv_filename)
+#
+#                 # Create a zip file containing all CSV files
+#                 zip_file = "media/zip/output.zip"
+#                 compress_files(csv_files, zip_file)
+#
+#                 # Delete IFC file after use
+#                 with delete_file_after_use(ifc_path):
+#                     pass  # Do nothing, file will be deleted after the context is closed
+#
+#                 # Send the zip file in response
+#                 response = FileResponse(open(zip_file, 'rb'), content_type='application/zip')
+#                 response['Content-Disposition'] = f'attachment; filename={os.path.basename(zip_file)}'
+#                 return response
+#             except ValueError as e:
+#                 return render(request, 'error_file.html', {'error_message': str(e)})
+#
+#     return render(request, 'upload.html', {'form': form})
+
 def extract_geometry(request):
     form = IfcFileForm()
     if request.method == 'POST':
@@ -59,31 +87,16 @@ def extract_geometry(request):
             ifc_path = ifc_file.file.path
             try:
                 analyzer = IFCObjectAnalyzer(ifc_path, True)
-                # Get all element types
-                types_list = analyzer.get_all_element_types()
-                csv_files = []
-                for element_type in types_list:
-                    # Extract data for each element type and write to CSV
-                    data, _ = analyzer.extract_data(element_type)
-                    csv_filename = f"{element_type}.csv"
-                    df = pd.DataFrame(data)
-                    df.to_csv(csv_filename)
-                    csv_files.append(csv_filename)
+                zip_file = analyzer.export_ifc_to_csv()  # Ici on utilise la méthode export_ifc_to_csv()
 
-                # Create a zip file containing all CSV files
-                zip_file = "media/zip/output.zip"
-                with zipfile.ZipFile(zip_file, 'w') as zipf:
-                    for csv_file in csv_files:
-                        zipf.write(csv_file)
-                        os.remove(csv_file)  # Delete file after adding it to zip
-
-                # Delete IFC file after use
-                os.remove(ifc_path)
+                with delete_file_after_use(ifc_path):
+                    pass  # Do nothing, file will be deleted after the context is closed
 
                 # Send the zip file in response
                 response = FileResponse(open(zip_file, 'rb'), content_type='application/zip')
                 response['Content-Disposition'] = f'attachment; filename={os.path.basename(zip_file)}'
-                return response
+                with delete_file_after_use(zip_file):
+                    return response
             except ValueError as e:
                 return render(request, 'error_file.html', {'error_message': str(e)})
 
