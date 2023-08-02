@@ -42,15 +42,6 @@ def write_data_to_csv(data, filename):
 
 
 
-def create_csv_files(data, prefix):
-    csv_files = []
-    for element_type, elements in data.items():
-        filename = f'{prefix}_{element_type}.csv'
-        write_data_to_csv(elements, filename)
-        csv_files.append(filename)
-    return csv_files
-
-
 def compress_files(file_names, zip_name):
     with zipfile.ZipFile(zip_name, 'w') as zipf:
         for file in file_names:
