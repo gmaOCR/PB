@@ -24,7 +24,7 @@ il est supposé que la commande `python` de votre OS shell exécute l'interprét
 
 #### Créer et lancer l'environnement virtuel
 
-- `pip install pipenv --user
+- `pip install pipenv --user`
 - `cd /path/to/PB`
 - `pipenv install`
 - `pipenv shell`
