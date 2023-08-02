@@ -1,8 +1,7 @@
-import csv
-import os
-import zipfile
-
 import ifcopenshell
+import ifcopenshell.geom
+import ifcopenshell.util.element as Element
+import pandas as pd
 
 
 def get_entities_by_type(entities_list):
@@ -17,12 +16,60 @@ def get_entities_by_type(entities_list):
     return entities_by_type
 
 
+def get_properties_and_quantities(element):
+    properties = {}
+    quantities = {}
+
+    is_defined_by = element.IsDefinedBy
+    for rel_defines_by_property in is_defined_by:
+        if rel_defines_by_property.is_a("IfcRelDefinesByProperties"):
+            property_set = rel_defines_by_property.RelatingPropertyDefinition
+            if property_set.is_a("IfcPropertySet"):
+                for property in property_set.HasProperties:
+                    if property.is_a("IfcPropertySingleValue"):
+                        properties[property.Name] = property.NominalValue.wrappedValue
+            elif property_set.is_a("IfcElementQuantity"):
+                for quantity in property_set.Quantities:
+                    if quantity.is_a("IfcPhysicalSimpleQuantity"):
+                        quantities[quantity.Name] = quantity[0]
+    return {"properties": properties, "quantities": quantities}
+
+
+def get_attributes_value(object_data, attribute):
+    if "." not in attribute:
+        return object_data[attribute]
+    elif "." in attribute:
+        pset_name = attribute.split(".", 1)[0]
+        prop_name = attribute.split(".", 1)[1]
+        if pset_name in object_data["PropertySets"].keys():
+            if prop_name in object_data["PropertySets"][pset_name].keys():
+                return object_data["PropertySets"][pset_name][prop_name]
+            else:
+                return None
+        if pset_name in object_data["QuantitiySets"].keys():
+            if prop_name in object_data["QuantitiySets"][pset_name].keys():
+                return object_data["QuantitiySets"][pset_name][prop_name]
+            else:
+                return None
+        else:
+            return None
+
+
 class IFCObjectAnalyzer:
-    def __init__(self, ifc_path):
+    """
+    is_element = True : Give all geometric elements
+    is_element = False : Give all non geometric elements
+    """
+
+    def __init__(self, ifc_path, is_element=True):
         self.ifc_path = ifc_path
         self.ifc_model = self.open_ifc_file()
-        self.element_obj = self.get_element_ent()
-        self.non_element_obj = self.get_non_element_ent()
+        self.is_element = is_element
+        if self.is_element:
+            self.filtered_entities = self.ifc_model.by_type('IfcElement')
+        else:
+            self.filtered_entities = [e for e in self.ifc_model.by_type('IFCROOT') if not e.is_a('IfcElement')]
+        self.all_element_types = self.get_all_element_types()
 
     def open_ifc_file(self):
         try:
@@ -30,115 +77,143 @@ class IFCObjectAnalyzer:
         except ifcopenshell.Error as e:
             raise ValueError(str(e))
 
-    def get_all_entities(self):
-        all_entities = self.ifc_model.by_type("IFCROOT")
-        return all_entities
+    def get_filtered_entities(self):
+        """a refactoriser"""
+        return [e for e in self.all_entities if e.is_a('IfcElement') == self.is_element]
 
-    def get_element_ent(self):
-        entities = self.get_all_entities()
-        elements_entities = []
-        for e in entities:
-            if e.is_a('IfcElement'):
-                elements_entities.append(e)
-        return elements_entities
+    def get_elements_structure(self):
+        """A refactoriser"""
+        filtered_entities = self.get_filtered_entities()
+        elements_structure = {}
 
-    def get_non_element_ent(self):
-        entities = self.get_all_entities()
-        non_elements_entities = []
-        for e in entities:
-            if not e.is_a('IfcElement'):
-                non_elements_entities.append(e)
-        return non_elements_entities
+        for element in filtered_entities:
+            element_type = element.is_a()
+            if element_type not in elements_structure:
+                elements_structure[element_type] = []
 
-    def export_all_to_csv(self):
-        csv_files = []
-        elements_by_type = self.extract_geometry_from_elements()
+            elements_structure[element_type].append({
+                "id": element.id(),
+                "properties": get_properties_and_quantities(element),
+            })
 
-        for element_type, elements in elements_by_type.items():
-            filename = f'{element_type}_output.csv'
-            with open(filename, 'w', newline='') as file:
-                writer = csv.DictWriter(file, fieldnames=elements[0].keys())
-                writer.writeheader()
-                for element in elements:
-                    writer.writerow(element)
-            csv_files.append(filename)
+        return elements_structure
 
-        return csv_files
+    def get_project_hierarchy(self):
+        project = self.ifc_model.by_type("IfcProject")[0]
+        site = project.IsDecomposedBy[0].RelatedObjects[0]
+        building = site.IsDecomposedBy[0].RelatedObjects[0]
 
-    @staticmethod
-    def compress_files(file_names, zip_name):
-        with zipfile.ZipFile(zip_name, 'w') as zipf:
-            for file in file_names:
-                if os.path.exists(file):  # Add this
-                    zipf.write(file)
-                    print(f"Added {file} to {zip_name}")  # Add this
-                else:
-                    print(f"File {file} does not exist")  # Add this
+        return {
+            "project": project.Name,
+            "site": site.Name,
+            "building": building.Name,
+            "storeys": [
+                {"name": storey.Name, "elements": self.get_elements_structure()}
+                for storey in building.IsDecomposedBy[0].RelatedObjects
+            ],
+        }
 
-    def resolve_ifc_id(self, ifc_id_str):
-        """Résout un identifiant IFC en une valeur lisible """
-        if ifc_id_str.startswith("#"):
-            id_num = int(ifc_id_str[1:])
-            entity = self.ifc_model.by_id(id_num)
-            return entity.Name if hasattr(entity, "Name") else str(entity)
-        else:
-            return ifc_id_str
+    def get_all_element_types(self):
+        list_of_element_types = list(set(element.is_a() for element in self.filtered_entities))
+        return list_of_element_types
 
-    def extract_geometry_from_elements(self):
-        elements_by_type = {}
-        elements_entities = self.get_element_ent()
+    # def extract_data(self, element_type):
+    #
+    #     elements = self.ifc_model.by_type(element_type)
+    #     datas = {}
+    #
+    #     for element in elements:
+    #         data_id = element.id()
+    #         container = Element.get_container(element)
+    #         container_name = container.Name if container else ""
+    #         type_element = Element.get_type(element)
+    #         type_name = type_element.Name if type_element else ""
+    #         datas[data_id] = {
+    #             "ExpressID": element.id(),
+    #             "GlobalID": element.GlobalId,
+    #             "Class": element.is_a(),
+    #             "PredefinedType": container_name,
+    #             "ObjectType": type_name,
+    #             "QuantitiySets": Element.get_psets(element, qtos_only=True),
+    #             "PropertySets": Element.get_psets(element, psets_only=True),
+    #         }
+    #     return datas
 
-        for element in elements_entities:
-            if element.is_a('IfcElement'):
-                element_type = element.is_a()
-                if element_type not in elements_by_type:
-                    elements_by_type[element_type] = []
-                element_details = self.get_element_attributes(element)  # Get the attributes of the element
-                # Resolve IFC IDs in the element details
-                for key, value in element_details.items():
-                    if isinstance(value, str):
-                        element_details[key] = self.resolve_ifc_id(value)
-                elements_by_type[element_type].append(element_details)
+    def extract_data(self, element_type):
+        def add_pset_attributes(psets):
+            for pset_name, pset_data in psets.items():
+                for property_name in pset_data.keys():
+                    pset_attributes.add(f'{pset_name}.{property_name}')
 
-        return elements_by_type
+        pset_attributes = set()
+        elements = self.ifc_model.by_type(element_type)
+        datas = []
 
-    def get_element_attributes(self, element):
-        element_dict = {}
-        for attr_name in element.get_info():
-            attr_value = element.get_info()[attr_name]
-            if isinstance(attr_value, ifcopenshell.entity_instance):
-                attr_value = self.get_element_attributes(attr_value)  # Recursive call for nested entities
-            elif isinstance(attr_value, str) and attr_value.startswith('#'):
-                try:
-                    id = int(attr_value[1:])  # Strip off the '#' and convert to integer
-                    ref_entity = self.ifc_model.by_id(id)
-                    attr_value = self.get_element_attributes(ref_entity)  # Recursive call for referenced entities
-                except (ValueError, RuntimeError):
-                    pass  # If conversion to integer fails or entity not found, ignore this value
-            element_dict[attr_name] = attr_value
+        for element in elements:
+            container = Element.get_container(element)
+            container_name = container.Name if container else ""
+            psets = Element.get_psets(element, psets_only=True)
+            add_pset_attributes(psets)
+            qtos = Element.get_psets(element, qtos_only=True)
+            add_pset_attributes(qtos)
+            datas.append({
+                "ExpressID": element.id(),
+                "GlobalID": element.GlobalId,
+                "Class": element.is_a(),
+                "PredefinedType": Element.get_predefined_type(element),
+                "Name": container_name,
+                "Level": Element.get_container(element).Name
+                if Element.get_container(element)
+                else "",
+                "ObjectType": Element.get_type(element).Name
+                if Element.get_type(element)
+                else "",
+                "QuantitiySets": qtos,
+                "PropertySets": psets,
+            })
+        return datas, list(pset_attributes)
 
-        # Add properties and quantities to the element dictionary if it is an IfcElement
-        if element.is_a("IfcElement"):
-            properties_and_quantities = self.get_properties_and_quantities(element)
-            element_dict.update(properties_and_quantities)
+    # def export_ifc_to_CSV(self):
+    #     data, pset_attributes = self.extract_data(self.get_all_element_types())
+    #     attributes = ["ExpressID", "GlobalID", "Class", "PredefinedType", "Name", "Level", "ObjectType",
+    #                   "QuantitiySets", "PropertySets"] + pset_attributes
+    #     pandas_data = []
+    #     for object_data in data:
+    #         row = []
+    #         for attribute in attributes:
+    #             value = get_attributes_value(object_data, attribute)
+    #             row.append(value)
+    #         pandas_data.append(tuple(row))
+    #     data_frame = pd.DataFrame.from_records(pandas_data, columns=attributes)
+    #     data_frame.to_csv('csv/test')
 
-        return element_dict
+    def export_ifc_to_csv(self):
+        data, pset_attributes = self.extract_data(self.get_all_element_types())
+        attributes = ["ExpressID", "GlobalID", "Class", "PredefinedType", "Name", "Level", "ObjectType"]
 
-    def get_properties_and_quantities(self, element):
-        properties = {}
-        quantities = {}
+        # Créer un DataFrame à partir des données extraites
+        df = pd.DataFrame(data)
 
-        is_defined_by = element.IsDefinedBy
-        for rel_defines_by_property in is_defined_by:
-            if rel_defines_by_property.is_a("IfcRelDefinesByProperties"):
-                property_set = rel_defines_by_property.RelatingPropertyDefinition
-                if property_set.is_a("IfcPropertySet"):
-                    for property in property_set.HasProperties:
-                        if property.is_a("IfcPropertySingleValue"):
-                            properties[property.Name] = property.NominalValue.wrappedValue
-                elif property_set.is_a("IfcElementQuantity"):
-                    for quantity in property_set.Quantities:
-                        if quantity.is_a("IfcPhysicalSimpleQuantity"):
-                            quantities[quantity.Name] = quantity[0]
-        return {"properties": properties, "quantities": quantities}
+        # S'assurer que les colonnes "PropertySets" et "QuantitiySets" contiennent bien des dictionnaires
+        df['PropertySets'] = df['PropertySets'].apply(lambda x: x if isinstance(x, dict) else {})
+        df['QuantitiySets'] = df['QuantitiySets'].apply(lambda x: x if isinstance(x, dict) else {})
+
+        # Créer une nouvelle colonne pour chaque clé dans les dictionnaires "PropertySets"
+        for key in pset_attributes:
+            if f'PropertySets_{key}' not in df.columns:
+                df[f'PropertySets_{key}'] = df['PropertySets'].apply(lambda x: x.get(key, None))
+
+        # Créer une nouvelle colonne pour chaque clé dans les sous-dictionnaires "QuantitiySets"
+        for sub_dict_name in df['QuantitiySets'].iloc[
+            0].keys():  # Assumons que tous les éléments ont les mêmes sous-dictionnaires
+            for key in pset_attributes:
+                if f'QuantitiySets_{sub_dict_name}_{key}' not in df.columns:
+                    df[f'QuantitiySets_{sub_dict_name}_{key}'] = df['QuantitiySets'].apply(
+                        lambda x: x[sub_dict_name].get(key, None) if sub_dict_name in x else None)
+
+        # Supprimer les colonnes 'PropertySets' et 'QuantitiySets' originales
+        df = df.drop(columns=['PropertySets', 'QuantitiySets'])
+
+        # Écrire le DataFrame dans un fichier CSV
+        df.to_csv('csv/test.csv', index=False)
 
