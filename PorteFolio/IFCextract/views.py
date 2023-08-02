@@ -5,8 +5,7 @@ from django.http import FileResponse
 from django.shortcuts import render, redirect
 from .forms import IfcFileForm
 from .ifc_class import *
-
-import ifcopenshell
+from .extract import *
 
 
 @contextmanager
@@ -26,13 +25,14 @@ def read_ifc(request):
             ifc_file = form.save()
             ifc_path = ifc_file.file.path
             try:
-                analyzer = IFCObjectAnalyzer(ifc_path)
+                element_analyzer = IFCObjectAnalyzer(ifc_path, is_element=True)
+                non_element_analyzer = IFCObjectAnalyzer(ifc_path, is_element=False)
             except ValueError as e:
                 return render(request, 'error_file.html', {'error_message': str(e)})
 
             # Obtenir les entités triées par type pour les objets géométriques et non géométriques
-            element_entities_by_type = get_entities_by_type(analyzer.element_obj)
-            non_element_entities_by_type = get_entities_by_type(analyzer.non_element_obj)
+            element_entities_by_type = get_entities_by_type(element_analyzer.filtered_entities)
+            non_element_entities_by_type = get_entities_by_type(non_element_analyzer.filtered_entities)
 
             # Créer les données pour le contexte
             element_entity_data = [{'type': entity_type, 'entities': entities} for entity_type, entities in
@@ -58,24 +58,33 @@ def extract_geometry(request):
             ifc_file = form.save()
             ifc_path = ifc_file.file.path
             try:
-                analyzer = IFCObjectAnalyzer(ifc_path)
-                # Extract geometry from elements and export data to CSV files
-                csv_files = analyzer.export_all_to_csv()
+                analyzer = IFCObjectAnalyzer(ifc_path, True)
+                # Get all element types
+                types_list = analyzer.get_all_element_types()
+                csv_files = []
+                for element_type in types_list:
+                    # Extract data for each element type and write to CSV
+                    data, _ = analyzer.extract_data(element_type)
+                    csv_filename = f"{element_type}.csv"
+                    df = pd.DataFrame(data)
+                    df.to_csv(csv_filename)
+                    csv_files.append(csv_filename)
+
                 # Create a zip file containing all CSV files
-                zip_file = "zip/output.zip"
-                analyzer.compress_files(csv_files, zip_file)
-                # Delete CSV files after zipping
-                for file in csv_files:
-                    with delete_file_after_use(file):
-                        if os.path.exists(file):
-                            pass
+                zip_file = "media/zip/output.zip"
+                with zipfile.ZipFile(zip_file, 'w') as zipf:
+                    for csv_file in csv_files:
+                        zipf.write(csv_file)
+                        os.remove(csv_file)  # Delete file after adding it to zip
+
+                # Delete IFC file after use
+                os.remove(ifc_path)
+
                 # Send the zip file in response
                 response = FileResponse(open(zip_file, 'rb'), content_type='application/zip')
                 response['Content-Disposition'] = f'attachment; filename={os.path.basename(zip_file)}'
-                return response  # Change redirect to response here
+                return response
             except ValueError as e:
                 return render(request, 'error_file.html', {'error_message': str(e)})
 
     return render(request, 'upload.html', {'form': form})
-
-
