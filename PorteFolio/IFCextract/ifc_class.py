@@ -77,67 +77,9 @@ class IFCObjectAnalyzer:
         except ifcopenshell.Error as e:
             raise ValueError(str(e))
 
-    def get_filtered_entities(self):
-        """a refactoriser"""
-        return [e for e in self.all_entities if e.is_a('IfcElement') == self.is_element]
-
-    def get_elements_structure(self):
-        """A refactoriser"""
-        filtered_entities = self.get_filtered_entities()
-        elements_structure = {}
-
-        for element in filtered_entities:
-            element_type = element.is_a()
-            if element_type not in elements_structure:
-                elements_structure[element_type] = []
-
-            elements_structure[element_type].append({
-                "id": element.id(),
-                "properties": get_properties_and_quantities(element),
-            })
-
-        return elements_structure
-
-    def get_project_hierarchy(self):
-        project = self.ifc_model.by_type("IfcProject")[0]
-        site = project.IsDecomposedBy[0].RelatedObjects[0]
-        building = site.IsDecomposedBy[0].RelatedObjects[0]
-
-        return {
-            "project": project.Name,
-            "site": site.Name,
-            "building": building.Name,
-            "storeys": [
-                {"name": storey.Name, "elements": self.get_elements_structure()}
-                for storey in building.IsDecomposedBy[0].RelatedObjects
-            ],
-        }
-
     def get_all_element_types(self):
         list_of_element_types = list(set(element.is_a() for element in self.filtered_entities))
         return list_of_element_types
-
-    # def extract_data(self, element_type):
-    #
-    #     elements = self.ifc_model.by_type(element_type)
-    #     datas = {}
-    #
-    #     for element in elements:
-    #         data_id = element.id()
-    #         container = Element.get_container(element)
-    #         container_name = container.Name if container else ""
-    #         type_element = Element.get_type(element)
-    #         type_name = type_element.Name if type_element else ""
-    #         datas[data_id] = {
-    #             "ExpressID": element.id(),
-    #             "GlobalID": element.GlobalId,
-    #             "Class": element.is_a(),
-    #             "PredefinedType": container_name,
-    #             "ObjectType": type_name,
-    #             "QuantitiySets": Element.get_psets(element, qtos_only=True),
-    #             "PropertySets": Element.get_psets(element, psets_only=True),
-    #         }
-    #     return datas
 
     def extract_data(self, element_type):
         def add_pset_attributes(psets):
@@ -173,47 +115,41 @@ class IFCObjectAnalyzer:
             })
         return datas, list(pset_attributes)
 
-    # def export_ifc_to_CSV(self):
-    #     data, pset_attributes = self.extract_data(self.get_all_element_types())
-    #     attributes = ["ExpressID", "GlobalID", "Class", "PredefinedType", "Name", "Level", "ObjectType",
-    #                   "QuantitiySets", "PropertySets"] + pset_attributes
-    #     pandas_data = []
-    #     for object_data in data:
-    #         row = []
-    #         for attribute in attributes:
-    #             value = get_attributes_value(object_data, attribute)
-    #             row.append(value)
-    #         pandas_data.append(tuple(row))
-    #     data_frame = pd.DataFrame.from_records(pandas_data, columns=attributes)
-    #     data_frame.to_csv('csv/test')
-
     def export_ifc_to_csv(self):
-        data, pset_attributes = self.extract_data(self.get_all_element_types())
         attributes = ["ExpressID", "GlobalID", "Class", "PredefinedType", "Name", "Level", "ObjectType"]
 
-        # Créer un DataFrame à partir des données extraites
-        df = pd.DataFrame(data)
+        df_list = []
 
-        # S'assurer que les colonnes "PropertySets" et "QuantitiySets" contiennent bien des dictionnaires
-        df['PropertySets'] = df['PropertySets'].apply(lambda x: x if isinstance(x, dict) else {})
-        df['QuantitiySets'] = df['QuantitiySets'].apply(lambda x: x if isinstance(x, dict) else {})
+        for element_type in self.all_element_types:
+            data, pset_attributes = self.extract_data(element_type)
 
-        # Créer une nouvelle colonne pour chaque clé dans les dictionnaires "PropertySets"
-        for key in pset_attributes:
-            if f'PropertySets_{key}' not in df.columns:
-                df[f'PropertySets_{key}'] = df['PropertySets'].apply(lambda x: x.get(key, None))
+            # Créer un DataFrame à partir des données extraites
+            df = pd.DataFrame(data)
 
-        # Créer une nouvelle colonne pour chaque clé dans les sous-dictionnaires "QuantitiySets"
-        for sub_dict_name in df['QuantitiySets'].iloc[
-            0].keys():  # Assumons que tous les éléments ont les mêmes sous-dictionnaires
+            # S'assurer que les colonnes "PropertySets" et "QuantitiySets" contiennent bien des dictionnaires
+            df['PropertySets'] = df['PropertySets'].apply(lambda x: x if isinstance(x, dict) else {})
+            df['QuantitiySets'] = df['QuantitiySets'].apply(lambda x: x if isinstance(x, dict) else {})
+
+            # Créer une nouvelle colonne pour chaque clé dans les dictionnaires "PropertySets"
             for key in pset_attributes:
-                if f'QuantitiySets_{sub_dict_name}_{key}' not in df.columns:
-                    df[f'QuantitiySets_{sub_dict_name}_{key}'] = df['QuantitiySets'].apply(
-                        lambda x: x[sub_dict_name].get(key, None) if sub_dict_name in x else None)
+                if f'PropertySets_{key}' not in df.columns:
+                    df[f'PropertySets_{key}'] = df['PropertySets'].apply(lambda x: x.get(key, None))
+
+            # Créer une nouvelle colonne pour chaque clé dans les sous-dictionnaires "QuantitiySets"
+            for sub_dict_name in df['QuantitiySets'].iloc[0].keys():
+                for key in pset_attributes:
+                    if f'QuantitiySets_{sub_dict_name}_{key}' not in df.columns:
+                        df[f'QuantitiySets_{sub_dict_name}_{key}'] = df['QuantitiySets'].apply(
+                            lambda x: x[sub_dict_name].get(key, None) if sub_dict_name in x else None)
+
+            df_list.append(df)
+
+        # Concatenate all the dataframes in the df_list
+        final_df = pd.concat(df_list, ignore_index=True)
 
         # Supprimer les colonnes 'PropertySets' et 'QuantitiySets' originales
-        df = df.drop(columns=['PropertySets', 'QuantitiySets'])
+        final_df = final_df.drop(columns=['PropertySets', 'QuantitiySets'])
 
         # Écrire le DataFrame dans un fichier CSV
-        df.to_csv('csv/test.csv', index=False)
+        final_df.to_csv('csv/test.csv', index=False)
 
