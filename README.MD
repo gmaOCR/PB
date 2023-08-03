@@ -29,6 +29,10 @@ il est supposé que la commande `python` de votre OS shell exécute l'interprét
 - `pipenv install`
 - `pipenv shell`
 
+### Créer un super user
+Depuis le répertoire "PorteFolio":
+
+- `python manage.py createsuperuser`
 
 #### Exécuter le site
 
