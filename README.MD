@@ -43,5 +43,3 @@ il est supposé que la commande `python` de votre OS shell exécute l'interprét
 
 #### Base de données et création d'utilisateur
 Gestion faite avec sqlite3. Pas de contrôle de mail et de sécurité à ce stade du développement.
-
--
