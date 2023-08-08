@@ -1,8 +1,7 @@
-import os
-from contextlib import contextmanager
 
+from django.conf import settings
 from django.http import FileResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .forms import IfcFileForm
 from .ifc_class import *
 from .extract import *
@@ -64,3 +63,20 @@ def extract_geometry(request):
                 return render(request, 'error_file.html', {'error_message': str(e)})
 
     return render(request, 'upload.html', {'form': form})
+
+
+def preview_ifc(request):
+    form = IfcFileForm()
+    if request.method == 'POST':
+        form = IfcFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            ifc_file = form.save()
+            ifc_path = ifc_file.file.path
+            try:
+                IFCObjectAnalyzer(ifc_path, is_element=True)
+            except ValueError as e:
+                return render(request, 'error_file.html', {'error_message': str(e)})
+            ifc_url = os.path.relpath(ifc_path, settings.MEDIA_ROOT)
+            return render(request, 'preview.html', {'ifc_url': ifc_url})
+    else:
+        return render(request, 'upload.html', {'form': form})
