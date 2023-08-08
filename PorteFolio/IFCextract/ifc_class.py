@@ -1,9 +1,7 @@
 import os
-import subprocess
 import zipfile
 
 from contextlib import contextmanager
-from django.http import StreamingHttpResponse
 
 import ifcopenshell
 import ifcopenshell.geom
@@ -136,48 +134,3 @@ class IFCObjectAnalyzer:
                 pass  # Le fichier CSV sera supprimé après ce contexte
         return zip_path
 
-    def export_ifc_to_obj(self):
-        obj_path = 'media/obj'
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        # Construisez le chemin vers IfcConvert
-        ifc_convert_path = os.path.join(dir_path, 'IfcConvert-0.4.0-rc2-linux64/IfcConvert')
-        command = f"{ifc_convert_path} {self.ifc_path} {obj_path}"
-        process = subprocess.Popen(command, shell=True)
-        process.wait()
-
-        # Vérifiez le code de sortie
-        if process.returncode != 0:
-            raise Exception("Error: The IfcConvert command failed.")
-
-        # Vérifiez que le fichier OBJ existe
-        if os.path.exists(obj_path):
-            return obj_path
-        else:
-            raise Exception("Error: The OBJ file was not created.")
-
-
-
-
-# testing
-def convert_ifc(request):
-    def stream_response():
-        obj_path = 'media/obj'
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        ifc_convert_path = os.path.join(dir_path, 'IfcConvert-0.4.0-rc2-linux64/IfcConvert')
-        command = f"{ifc_convert_path} {request.FILES['ifc_file'].temporary_file_path()} {obj_path}"
-
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
-        while True:
-            output = process.stdout.readline()
-
-            # Parse the output to get the progress
-            # This will depend on what IfcConvert outputs
-            progress = parse_progress(output)
-
-            yield f"data: {progress}\n\n"
-
-            if process.poll() is not None:
-                break
-
-    return StreamingHttpResponse(stream_response(), content_type='text/event-stream')
