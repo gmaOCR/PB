@@ -15,10 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path
+from django.conf.urls.static import static
 
 from IFCextract import views as ifc_views
 from Photos import views as ph_views
@@ -35,10 +35,11 @@ urlpatterns = [
 
     path('ifc/upload/read/', ifc_views.read_ifc, name='upload_ifc'),
     path('ifc/upload/extract/', ifc_views.extract_geometry, name='extract_ifc'),
+    path('ifc/upload/viewer/', ifc_views.preview_ifc, name='preview_ifc'),
 
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
