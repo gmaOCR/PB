@@ -7,7 +7,6 @@ module.exports = {
       modules: ['node_modules'],
       alias: {
           'web-ifc-viewer': 'web-ifc-viewer/dist/index.js',
-          'three.js': 'three/build/three.module.js',
       },
       mainFields: ['browser', 'module', 'main'],
       fullySpecified: false
