@@ -1,7 +1,17 @@
 const path = require('path');
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require('webpack');
 
 module.exports = {
+  resolve: {
+      extensions: ['.js', '.json', '.mjs'],
+      modules: ['node_modules'],
+      alias: {
+          'web-ifc-viewer': 'web-ifc-viewer/dist/index.js',
+          'three.js': 'three/build/three.module.js',
+      },
+      mainFields: ['browser', 'module', 'main'],
+      fullySpecified: false
+  },
   experiments: {
     asyncWebAssembly: true
   },
@@ -13,10 +23,6 @@ module.exports = {
   },
   module: {
     rules: [
-        {
-        test: /\.wasm$/,
-            type: 'webassembly/async'
-        },
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
@@ -28,5 +34,13 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.NormalModuleReplacementPlugin(/^(.*)([^\.js])$/, function(resource) {
+      if (resource.context.includes('node_modules/web-ifc-viewer') && !resource.request.endsWith('.js')) {
+        resource.request += '.js';
+      }
+    }),
+  ],
+
 };
