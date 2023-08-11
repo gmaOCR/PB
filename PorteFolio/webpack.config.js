@@ -8,8 +8,10 @@ module.exports = {
       extensions: ['.js', '.json', '.mjs'],
       modules: ['node_modules'],
       alias: {
+          'path.js': 'path',
+
+
           'web-ifc-viewer': 'web-ifc-viewer/dist/index.js',
-          'web-ifc.js': 'web-ifc/web-ifc-api-node.js',
           './edgeUtils': path.resolve(__dirname, 'node_modules/web-ifc-viewer/dist/components/import-export/edges-vectorizer/edgeUtils.js'),
           '../../base-types': path.resolve(__dirname, 'node_modules/web-ifc-viewer/dist/base-types.js'),
           '../../utils/ThreeUtils': path.resolve(__dirname, 'node_modules/web-ifc-viewer/dist/utils/ThreeUtils.js'),
@@ -33,7 +35,7 @@ module.exports = {
   mode: 'development',
   entry: './static/js/preview.js',
   output: {
-    filename: 'main.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'static/dist'),
   },
   module: {
@@ -51,8 +53,7 @@ module.exports = {
     ]
   },
 plugins: [
-new webpack.NormalModuleReplacementPlugin(/^(.*)([^\.js])$/, function(resource) {
-    // Si le chemin contient "web-ifc-viewer" ou "node_modules" et ne se termine pas par ".js"
+new webpack.NormalModuleReplacementPlugin(/^(.*)(?<!\.js)$/, function(resource) {
     if ((resource.context.includes('web-ifc-viewer') || resource.context.includes('node_modules')) && !resource.request.endsWith('.js')) {
         resource.request += '.js';
     }
