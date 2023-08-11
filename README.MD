@@ -1,6 +1,6 @@
 ## Résumé
 
-Developpement de divers fonctionnalité et présentation sous forme de site navigable via
+Developpement de divers fonctionnalités et présentation sous forme de site naviguable via
 barre de menu
 
 ## Développement local
