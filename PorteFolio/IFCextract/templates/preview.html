@@ -3,11 +3,9 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/preview.css' %}">
 <div class="container">
-  <div>
-      <h4>Rendu:</h4>
-      <input type="hidden" id="ifcUrl" value="{{ ifc_url }}">
-      <canvas id="three-container"></canvas>
-  </div>
+        <h4>Rendu:</h4>
+        <input type="hidden" id="ifcUrl" value="{{ ifc_url }}">
+        <div id="three-container"></div>
 </div>
-<script src="{% static 'dist/main.js' %}"></script>
+<script src="{% static 'dist/bundle.js' %}"></script>
 {% endblock %}

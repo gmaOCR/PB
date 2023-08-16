@@ -7,24 +7,28 @@ $(document).ready(function() {
 
   // Fonction pour afficher la sidebar gauche lorsque vous passez la souris sur la flèche
   arrowLeft.on('mouseenter', function() {
+    event.stopPropagation();
     sidebarLeft.addClass('active');
     arrowLeft.addClass('active');
   });
 
   // Fonction pour cacher la sidebar gauche lorsque vous déplacez la souris hors de la sidebar ou de la flèche
   sidebarLeft.on('mouseleave', function() {
+  event.stopPropagation();
     sidebarLeft.removeClass('active');
     arrowLeft.removeClass('active');
   });
 
   // Fonction pour afficher la sidebar droite lorsque vous passez la souris sur la flèche
   arrowRight.on('mouseenter', function() {
+          event.stopPropagation();
     sidebarRight.addClass('active');
     arrowRight.addClass('active');
   });
 
   // Fonction pour cacher la sidebar droite lorsque vous déplacez la souris hors de la sidebar ou de la flèche
   sidebarRight.on('mouseleave', function() {
+          event.stopPropagation();
     sidebarRight.removeClass('active');
     arrowRight.removeClass('active');
   });
