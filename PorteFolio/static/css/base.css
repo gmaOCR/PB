@@ -196,6 +196,11 @@ body {
   right: 0;
 }
 
+.sidebar_left:not(.active),
+.sidebar_right:not(.active) {
+    pointer-events: none;
+}
+
 .arrow_right {
   position: fixed;
   top: 20%;

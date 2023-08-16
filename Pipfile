@@ -8,6 +8,8 @@ django = "~=4.2.2"
 pillow = "~=9.5.0"
 pandas = "*"
 ifcopenshell = "*"
+jupyter = "*"
+notebook = "*"
 
 [dev-packages]
 
