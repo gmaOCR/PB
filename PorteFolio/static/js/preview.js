@@ -1,5 +1,6 @@
 import { IfcViewerAPI } from 'web-ifc-viewer';
 import { handleObjectSelection } from './selection_logic.js';
+import { setupPreselection } from './preselection_logic.js';
 
 async function loadIfc(url, viewer) {
     console.log('Chargement de l\'IFC depuis:', url);
@@ -11,6 +12,8 @@ async function loadIfc(url, viewer) {
 function init() {
     const container = document.getElementById('three-container');
     const viewer = new IfcViewerAPI({ container: container });
+
+    setupPreselection(viewer);
 
     if (!viewer.context || !viewer.context.renderer || !viewer.context.renderer.renderer.domElement) {
         console.error('Renderer ou domElement non défini !');
