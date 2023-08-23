@@ -1,6 +1,6 @@
 #three-container {
     width: 100%;
-    height: 800px;
+    height: 400px;
     overflow: hidden;
     position: relative;
     top: 0;
@@ -11,4 +11,9 @@
 #ifcUrl {
   z-index: 1;
   position: absolute;
+}
+
+textarea {
+width: 99%;
+height: 400px;
 }
