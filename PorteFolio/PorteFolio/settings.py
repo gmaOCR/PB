@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'Photos',
     'Profiles',
     'IFCextract',
@@ -134,3 +135,10 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+CRONJOBS = [
+    ('*/5 * * * *', 'IFCextract.management.commands.clean_ifc.run', f'>> {PROJECT_ROOT}/log/log.txt'),
+    ('0 0 */30 * *', 'IFCextract.management.commands.delete_log.run')
+]
