@@ -4,8 +4,10 @@ body {
 }
 
 .background-container {
-  width: 80%;
+  width: calc(100% -800px);
   margin: 0 auto;
+  margin-left: 200px;
+  margin-right: 200px;
   min-height: 100vh;
   position: relative;
   border-left: 10px solid rgba(128, 128, 128, 0.5);

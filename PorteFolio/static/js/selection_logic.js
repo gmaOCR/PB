@@ -9,30 +9,15 @@ const attributesToShow = [
   'Description.value',
   'GlobalId.value',
   'expressID',
-  // Ajoutez d'autres chemins d'attributs que vous souhaitez afficher ici
 ];
 
-function findLevelAndBuilding(props) {
-  let level = null;
-  let building = null;
-
-  function traverse(obj) {
-    if (obj.hasOwnProperty('Level')) {
-      level = obj['Level'].value; // ou simplement obj['Level'] selon la structure
-    }
-    if (obj.hasOwnProperty('Building')) {
-      building = obj['Building'].value; // ou simplement obj['Building']
-    }
-    for (const key in obj) {
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
-        traverse(obj[key]); // Parcours récursif des propriétés imbriquées
-      }
-    }
-  }
-
-  traverse(props);
-  return { level, building };
-}
+const attributeLabels = {
+  'ObjectType.value': 'Type',
+  'Name.value': 'Nom',
+  'Description.value': 'Description',
+  'GlobalId.value': 'ID Global',
+  'expressID': 'Express ID',
+};
 
 function listAttributes(obj, prefix = '') {
   let attributes = [];
@@ -66,7 +51,9 @@ function formatProperties(props) {
   for (const path of attributesToShow) {
     const value = getNestedValue(props, path);
     if (value !== null) {
-      result += `${path}: ${value}\n`;
+      // Utilisez l'objet attributeLabels pour obtenir le libellé convivial
+      const label = attributeLabels[path] || path; // Utilisez le chemin lui-même si aucun libellé n'est trouvé
+      result += `${label}: ${value}\n`;
     }
   }
   return result;
@@ -96,7 +83,7 @@ export async function handleObjectSelection(event, viewer, textField) {
 //        material + properties
 //        textField.value = JSON.stringify(pickedItem, null, 2) + "\n\nProperties:\n" + JSON.stringify(props, null, 2);
 //        textField.value = "Properties:\n" + JSON.stringify(props, null, 2);
-  textField.value = "Properties:\n" + formatProperties(props);
+  textField.value = "[Properties]\n" + formatProperties(props);
 
         previousSelectedObject = pickedItem;
     } else {
