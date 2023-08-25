@@ -37,6 +37,16 @@ class IFCObjectAnalyzer:
         self.filtered_entities = self._filter_entities()
         self.all_element_types = self._get_all_element_types()
 
+    def get_entities_by_type(self, entities_list):
+        entities_by_type = {}
+
+        for entity in entities_list:
+            entity_type = entity.is_a()
+            if entity_type not in entities_by_type:
+                entities_by_type[entity_type] = []
+            entities_by_type[entity_type].append(entity)
+        return entities_by_type
+
     def _filter_entities(self):
         """Filter entities based on their type."""
         if self.is_element:

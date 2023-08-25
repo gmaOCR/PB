@@ -21,8 +21,8 @@ def read_ifc(request):
                 return render(request, 'error_file.html', {'error_message': str(e)})
 
             # Obtenir les entités triées par type pour les objets géométriques et non géométriques
-            element_entities_by_type = get_entities_by_type(element_analyzer.filtered_entities)
-            non_element_entities_by_type = get_entities_by_type(non_element_analyzer.filtered_entities)
+            element_entities_by_type = element_analyzer.get_entities_by_type(element_analyzer.filtered_entities)
+            non_element_entities_by_type = non_element_analyzer.get_entities_by_type(non_element_analyzer.filtered_entities)
 
             # Créer les données pour le contexte
             element_entity_data = [{'type': entity_type, 'entities': entities} for entity_type, entities in
