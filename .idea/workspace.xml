@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a42a1bed-e831-459d-b340-4c175959914f" name="Changes" comment="front-end preview renderer windows fixes">
+      <change beforePath="$PROJECT_DIR$/PorteFolio/static/css/preview.css" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/static/css/preview.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PorteFolio/static/dist/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/static/dist/bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PorteFolio/static/js/preview.js" beforeDir="false" afterPath="$PROJECT_DIR$/PorteFolio/static/js/preview.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="master" />
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature_pre_selecting" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="712b8d7a-9446-4b3c-b07f-0154bbc249b1" />
+        <option name="url" value="https://github.com/gmaOCR/PB.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2ST6HA2WNW8EtEnfJYPZMoPkWpn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/greg/PycharmProjects/PB/PorteFolio/src&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  }
+}</component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="PB" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="PB" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/PorteFolio/src" />
+      <recent name="$PROJECT_DIR$/PorteFolio/static/dist" />
+      <recent name="$PROJECT_DIR$/PorteFolio/static/js" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/PorteFolio/node_modules/web-ifc-viewer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/PorteFolio/IFCextract" />
+      <recent name="$PROJECT_DIR$/PorteFolio/IFCextract/management/commands" />
+      <recent name="$PROJECT_DIR$/PorteFolio/static" />
+      <recent name="$PROJECT_DIR$/PorteFolio/PorteFolio" />
+      <recent name="$PROJECT_DIR$/PorteFolio" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a42a1bed-e831-459d-b340-4c175959914f" name="Changes" comment="" />
+      <created>1689158134297</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1689158134297</updated>
+    </task>
+    <task id="LOCAL-00039" summary="cleaning dead code">
+      <option name="closed" value="true" />
+      <created>1690979686952</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1690979686952</updated>
+    </task>
+    <task id="LOCAL-00040" summary="moving contextmanager and update def export_ifc_to_csv">
+      <option name="closed" value="true" />
+      <created>1690984344757</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1690984344757</updated>
+    </task>
+    <task id="LOCAL-00041" summary="update def export_ifc_to_csv">
+      <option name="closed" value="true" />
+      <created>1690984410669</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1690984410669</updated>
+    </task>
+    <task id="LOCAL-00042" summary="minor update">
+      <option name="closed" value="true" />
+      <created>1691051478966</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1691051478966</updated>
+    </task>
+    <task id="LOCAL-00043" summary="adding superuser creation">
+      <option name="closed" value="true" />
+      <created>1691051864292</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1691051864292</updated>
+    </task>
+    <task id="LOCAL-00044" summary="add def export ifc to obj">
+      <option name="closed" value="true" />
+      <created>1691066641079</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1691066641079</updated>
+    </task>
+    <task id="LOCAL-00045" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1691066722487</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1691066722487</updated>
+    </task>
+    <task id="LOCAL-00046" summary="add viewer link">
+      <option name="closed" value="true" />
+      <created>1691498654615</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1691498654615</updated>
+    </task>
+    <task id="LOCAL-00047" summary="refactoring by use case change">
+      <option name="closed" value="true" />
+      <created>1691498727977</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1691498727977</updated>
+    </task>
+    <task id="LOCAL-00048" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1691498766556</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1691498766556</updated>
+    </task>
+    <task id="LOCAL-00049" summary="add def preview_ifc">
+      <option name="closed" value="true" />
+      <created>1691498804476</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1691498804476</updated>
+    </task>
+    <task id="LOCAL-00050" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1691578104788</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1691578104789</updated>
+    </task>
+    <task id="LOCAL-00051" summary="delete file">
+      <option name="closed" value="true" />
+      <created>1691578142087</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1691578142088</updated>
+    </task>
+    <task id="LOCAL-00052" summary="static route added">
+      <option name="closed" value="true" />
+      <created>1691578168376</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1691578168376</updated>
+    </task>
+    <task id="LOCAL-00053" summary="delete file">
+      <option name="closed" value="true" />
+      <created>1691580211942</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1691580211942</updated>
+    </task>
+    <task id="LOCAL-00054" summary="delete file">
+      <option name="closed" value="true" />
+      <created>1691687094525</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1691687094526</updated>
+    </task>
+    <task id="LOCAL-00055" summary="delete file">
+      <option name="closed" value="true" />
+      <created>1691687800981</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1691687800981</updated>
+    </task>
+    <task id="LOCAL-00056" summary="minor change">
+      <option name="closed" value="true" />
+      <created>1691687821941</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1691687821941</updated>
+    </task>
+    <task id="LOCAL-00057" summary="webpack build">
+      <option name="closed" value="true" />
+      <created>1691687952236</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1691687952236</updated>
+    </task>
+    <task id="LOCAL-00058" summary="minimal function to use web-ifc-viewer">
+      <option name="closed" value="true" />
+      <created>1691688092357</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1691688092357</updated>
+    </task>
+    <task id="LOCAL-00059" summary="update package">
+      <option name="closed" value="true" />
+      <created>1691688167865</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1691688167865</updated>
+    </task>
+    <task id="LOCAL-00060" summary="change static path">
+      <option name="closed" value="true" />
+      <created>1691688192051</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1691688192051</updated>
+    </task>
+    <task id="LOCAL-00061" summary="test to fix webpack error">
+      <option name="closed" value="true" />
+      <created>1691688233216</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1691688233216</updated>
+    </task>
+    <task id="LOCAL-00062" summary="delete file">
+      <option name="closed" value="true" />
+      <created>1691689955799</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1691689955799</updated>
+    </task>
+    <task id="LOCAL-00063" summary="recreating file">
+      <option name="closed" value="true" />
+      <created>1691690038865</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1691690038865</updated>
+    </task>
+    <task id="LOCAL-00064" summary="recreating file">
+      <option name="closed" value="true" />
+      <created>1691690051033</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1691690051033</updated>
+    </task>
+    <task id="LOCAL-00065" summary="testing update">
+      <option name="closed" value="true" />
+      <created>1691691979356</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1691691979357</updated>
+    </task>
+    <task id="LOCAL-00066" summary="addin alias to webpack and testing">
+      <option name="closed" value="true" />
+      <created>1691753324721</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1691753324722</updated>
+    </task>
+    <task id="LOCAL-00067" summary="addin alias to webpack and testing">
+      <option name="closed" value="true" />
+      <created>1691753352896</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1691753352896</updated>
+    </task>
+    <task id="LOCAL-00068" summary="regex update - 7 errors left">
+      <option name="closed" value="true" />
+      <created>1691754894588</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1691754894588</updated>
+    </task>
+    <task id="LOCAL-00069" summary="render ok">
+      <option name="closed" value="true" />
+      <created>1692178568848</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1692178568848</updated>
+    </task>
+    <task id="LOCAL-00070" summary="render ok">
+      <option name="closed" value="true" />
+      <created>1692178584270</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1692178584270</updated>
+    </task>
+    <task id="LOCAL-00071" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1692772842720</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1692772842721</updated>
+    </task>
+    <task id="LOCAL-00072" summary="module update list">
+      <option name="closed" value="true" />
+      <created>1692772876528</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1692772876528</updated>
+    </task>
+    <task id="LOCAL-00073" summary="module update list">
+      <option name="closed" value="true" />
+      <created>1692772914273</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1692772914273</updated>
+    </task>
+    <task id="LOCAL-00074" summary="adding textarea">
+      <option name="closed" value="true" />
+      <created>1692772932638</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1692772932638</updated>
+    </task>
+    <task id="LOCAL-00075" summary="adding crontab">
+      <option name="closed" value="true" />
+      <created>1692772951929</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1692772951929</updated>
+    </task>
+    <task id="LOCAL-00076" summary="adding crontab">
+      <option name="closed" value="true" />
+      <created>1692772979857</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1692772979857</updated>
+    </task>
+    <task id="LOCAL-00077" summary="webpack transpiling">
+      <option name="closed" value="true" />
+      <created>1692773012375</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1692773012375</updated>
+    </task>
+    <task id="LOCAL-00078" summary="adding ifc_path and object_details">
+      <option name="closed" value="true" />
+      <created>1692773136798</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1692773136798</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Adding preselection_logic and exception on orbit">
+      <option name="closed" value="true" />
+      <created>1692792407778</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1692792407778</updated>
+    </task>
+    <task id="LOCAL-00080" summary="minor update">
+      <option name="closed" value="true" />
+      <created>1692876446259</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1692876446259</updated>
+    </task>
+    <task id="LOCAL-00081" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1692876479406</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1692876479406</updated>
+    </task>
+    <task id="LOCAL-00082" summary="properties test">
+      <option name="closed" value="true" />
+      <created>1692876500760</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1692876500760</updated>
+    </task>
+    <task id="LOCAL-00083" summary="minor changes">
+      <option name="closed" value="true" />
+      <created>1692876510967</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1692876510967</updated>
+    </task>
+    <task id="LOCAL-00084" summary="CSV testing + dependances updates">
+      <option name="closed" value="true" />
+      <created>1692876526114</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1692876526114</updated>
+    </task>
+    <task id="LOCAL-00085" summary="Renvoi du message d'erreur">
+      <option name="closed" value="true" />
+      <created>1692955788717</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1692955788717</updated>
+    </task>
+    <task id="LOCAL-00086" summary="code cleaning">
+      <option name="closed" value="true" />
+      <created>1692956050371</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1692956050371</updated>
+    </task>
+    <task id="LOCAL-00087" summary="front-end preview renderer windows fixes">
+      <option name="closed" value="true" />
+      <created>1692970921005</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1692970921005</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="01_feature_3D_viewer" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CODE_SMELLS_PROFILE" value="Default" />
+    <MESSAGE value="minimal function to use web-ifc-viewer" />
+    <MESSAGE value="update package" />
+    <MESSAGE value="change static path" />
+    <MESSAGE value="test to fix webpack error" />
+    <MESSAGE value="delete file" />
+    <MESSAGE value="recreating file" />
+    <MESSAGE value="testing update" />
+    <MESSAGE value="minor change" />
+    <MESSAGE value="addin alias to webpack and testing" />
+    <MESSAGE value="regex update - 7 errors left" />
+    <MESSAGE value="render ok" />
+    <MESSAGE value="module update list" />
+    <MESSAGE value="adding textarea" />
+    <MESSAGE value="adding crontab" />
+    <MESSAGE value="webpack transpiling" />
+    <MESSAGE value="adding ifc_path and object_details" />
+    <MESSAGE value="Adding preselection_logic and exception on orbit" />
+    <MESSAGE value="minor update" />
+    <MESSAGE value="initial commit" />
+    <MESSAGE value="properties test" />
+    <MESSAGE value="minor changes" />
+    <MESSAGE value="CSV testing + dependances updates" />
+    <MESSAGE value="Renvoi du message d'erreur" />
+    <MESSAGE value="code cleaning" />
+    <MESSAGE value="front-end preview renderer windows fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="front-end preview renderer windows fixes" />
+  </component>
+</project>
