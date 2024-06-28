@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div id="app">
+    <script>
+        var appDiv = document.getElementById('app');
+        appDiv.append(panel);
+     </script>
+
+</div>
+
+<script src="{% static 'dist/that_open_bundle.js' %}"></script>
+
+{% endblock %}

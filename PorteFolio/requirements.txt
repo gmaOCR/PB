@@ -1,0 +1,4 @@
+Django~=4.2.3
+Pillow~=9.5.0
+ifcopenshell~=0.7.0.230523
+pandas~=2.0.3

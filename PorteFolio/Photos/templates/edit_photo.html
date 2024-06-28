@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+  <div class="form-container">
+    <div class="form-header text-center">
+      <h4>Modifications</h4>
+    </div>
+    <form class="data-form" method="post" enctype="multipart/form-data">
+      <div class="form-row">
+        <label for="{{ photo.title.id_for_label }}">Titre :</label>
+        {{ edit_form.title }}
+      </div>
+      <div class="form-row">
+        <label for="{{ photo.description.id_for_label }}">Description:</label>
+        {{ edit_form.description }}
+      </div>
+      <div class="form-row">
+        <label for="thumbnail">Aperçu de l'image actuelle:</label>
+          {% if photo.thumbnail %}
+            <img src="{{ photo.thumbnail.url }}" alt="{{ photo.title }}" class="thumbnail-image">
+          {% else %}
+            <span>Aucune miniature présente actuellement</span>
+          {% endif %}
+      </div>
+      <div class="form-row image-row">
+        <img id="image-preview" class="preview-image" src="" alt="">
+        <output id="image-output"></output>
+      </div>
+      <div class="form-row">
+        <input type="file" id="edit-img" name="image" class="upload-button">
+        {% if photo.image %}
+        <label for="delete-media">
+        <input type="checkbox" name="delete_media" id="delete-media">
+        Supprimer l'image ?
+        </label>
+        {% endif %}
+      </div>
+      {% csrf_token %}
+      <button type="submit" name="edit_photo" class="submit-button">Envoyer</button>
+    </form>
+  </div>
+</div>
+<script src="{% static 'js/img_preview.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+  <div class="form-container">
+    <div class="form-header text-center">
+      <h4>Suppression</h4>
+    </div>
+    <form class="data-form" method="post" enctype="multipart/form-data">
+      <div class="form-row">
+        <p>Etes-vous sûr de vouloir supprimer cet élément ? ({{photo.title}})</p>
+      </div>
+      {% csrf_token %}
+      <button type="submit" name="delete_photo" class="submit-button">Envoyer</button>
+      <a href="{% url 'home' %}" class="submit-button">Annuler</a>
+    </form>
+  </div>
+</div>
+<script src="{% static 'js/img_preview.js' %}"></script>
+{% endblock %}

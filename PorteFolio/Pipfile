@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "~=4.2.3"
+pillow = "~=9.5.0"
+ifcopenshell = "~=0.7.0.230523"
+pandas = "*"
+django-crontab = "*"
+numpy = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

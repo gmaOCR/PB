@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<div class="home-container">
+  <div class="grid-container">
+    {% for photo in photos %}
+    <div class="grid-item">
+      <h2>{{ photo.title }}</h2>
+      {% if photo.image %}
+      <img src="{{ photo.thumbnail.url }}" alt="{{ photo.title }}">
+      {% else %}
+      <img src="{% static 'no-image-icon-23485.png' %}">
+      {% endif %}
+      <p>{{ photo.description }}</p>
+      <a href="{% url 'edit_photo' photo.id %}" class="edit-link"><i class="fas fa-edit"></i></a>
+      <a href="{% url 'delete_photo' photo.id %}" class="delete-link"><i class="fas fa-trash"></i></a>
+    </div>
+    {% empty %}
+    <div class="grid-item">
+      <p>Rien à afficher</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,69 @@
+/* Styles pour les icônes de déploiement */
+.tree .toggle-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 14px; /* Taille de police par défaut */
+  line-height: 20px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+/* Styles pour le "-" lorsque le sous-menu est déployé */
+.tree .toggle-icon:not(.expanded) {
+  content: "-";
+  font-size: 18px; /* Taille de police lorsque le sous-menu est déployé pour le "-" */
+}
+
+/* Masquer les sous-menus par défaut */
+.tree ul {
+  list-style: none;
+  padding-left: 20px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* Augmenter la hauteur et l'opacité des éléments déployés */
+.tree ul.expanded {
+  max-height: max-content;
+  opacity: 1;
+  transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+}
+
+/* Ajouter de l'espace entre les éléments déployés pour éviter le chevauchement */
+.tree ul ul {
+  margin-top: 2px;
+}
+
+/* Nouvelle classe pour la largeur plus étroite */
+.data-result {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  overflow-y: auto;
+  min-width: 500px;
+}
+
+/* Styles pour la checkbox */
+.tree .toggle-checkbox {
+  margin-right: 5px;
+}
+
+.entity-container ul {
+  display: none;
+}
+.entity-container.expanded ul {
+  display: block;
+}
+
+.tree .toggle-icon.selected {
+  font-size: 24px; /* Changez cela à la taille de police désirée */
+}
+
+.toggle-container {
+  display: flex;
+  align-items: flex-start;
+}
